@@ -80,7 +80,32 @@ function radial_menu:isPolice()
   end
 end
 
+function radial_menu:handcuff(self)
+  local user = vRP.users_by_source[source]
+  local nuser
+  local nplayer = vRP.EXT.Base.remote.getNearestPlayer(user.source, 2.5)
+  if nplayer then nuser = vRP.users_by_source[nplayer] end
+  if nuser then
+    self.remote._toggleHandcuff(nuser.source)
+  else
+    vRP.EXT.Base.remote._notify(user.source,lang.common.no_player_near())
+  end
+end
 
+function radial_menu:Drag(self)
+  local user = vRP.users_by_source[source]
+  local nuser
+  local nplayer = vRP.EXT.Base.remote.getNearestPlayer(user.source, 2.5)
+  if nplayer then nuser = vRP.users_by_source[nplayer] end
+  if nuser then
+    self.remote._toggleDrag(nuser.source, self)
+  else
+    vRP.EXT.Base.remote._notify(user.source,lang.common.no_player_near())
+  end
+end
+
+radial_menu.tunnel.Drag = radial_menu.Drag
+radial_menu.tunnel.handcuff = radial_menu.handcuff
 radial_menu.tunnel.giveMoney = radial_menu.giveMoney
 radial_menu.tunnel.callAdmin = radial_menu.callAdmin
 radial_menu.tunnel.isPolice = radial_menu.isPolice

@@ -2,12 +2,12 @@ local radial_menu = class("radial_menu", vRP.Extension)
 radial_menu.event = {}
 radial_menu.tunnel = {}
 
-local function PoliceItems()
+local function PoliceItems(self)
   exports['ox_lib']:addRadialItem({
     {
       id = 'police',
       label = 'Police Actions',
-      icon = 'shielf',
+      icon = 'shield',  -- Corrected typo here
       menu = 'police_menu'
     }
   })
@@ -19,37 +19,9 @@ local function PoliceItems()
         label = 'Handcuff',
         icon = 'handcuffs',
         onSelect = function()
-          exports['TSLib']:Handcuff()
+          self.remote._HandCuff(self)
         end
-      },
-      {
-        label = 'Remove Cuffs',
-        icon = 'handcuffs',
-        onSelect = function()
-          exports['TSLib']:RemoveHandcuffs()
-        end
-      },
-      {
-        label = 'Put in Vehicle',
-        icon = 'car',
-        onSelect = function()
-          exports['TSLib']:ForceIntoVehicle()
-        end
-      },
-      {
-        label = 'Take From Vehicle',
-        icon = 'car',
-        onSelect = function()
-          exports['TSLib']:ForceOutOfVehicle()
-        end
-      },
-      {
-        label = 'Drag',
-        icon = 'person-carry',
-        onSelect = function()
-          exports['TSLib']:DragPlayer()
-        end
-      },
+      }
     }
   })
 end
@@ -57,7 +29,6 @@ end
 local function removePoliceItems()
   exports['ox_lib']:removeRadialItem('police')
 end
-
 
 function radial_menu:__construct()
   vRP.Extension.__construct(self)
@@ -89,13 +60,13 @@ function radial_menu:__construct()
       local isPolice = self.remote.isPolice()
       if isPolice and not self.isPolice then
         --print("Player is police.")
-        PoliceItems()
+        PoliceItems(self)
         self.isPolice = true
       elseif not isPolice and not self.isPolice then
         --print("Player is not police.")
         self.isPolice = false
       elseif not isPolice and self.isPolice then
-        removePoliceItems()
+        removePoliceItems(self)
         self.isPolice = false
         --print("Player is no longer police.")
       end
@@ -103,5 +74,39 @@ function radial_menu:__construct()
     end
   end)
 end
+
+function radial_menu:toggleDrag(id, self)
+  print("Toggling drag... "..id)
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 vRP:registerExtension(radial_menu)
