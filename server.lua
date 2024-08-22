@@ -1,17 +1,14 @@
 --original code at bottom
 local htmlEntities = module("lib/htmlEntities")
 local lang = vRP.lang
-
 local radial_menu = class("radial_menu", vRP.Extension)
+-- TUNNEL
+radial_menu.tunnel = {}
 
 function radial_menu:__construct()
   vRP.Extension.__construct(self)
 end
-
--- TUNNEL
-radial_menu.tunnel = {}
-
-
+-- Give nearest player money
 function radial_menu:giveMoney()
   local user = vRP.users_by_source[source]
   local nplayer = vRP.EXT.Base.remote.getNearestPlayer(user.source, 10)
@@ -35,7 +32,9 @@ function radial_menu:giveMoney()
     vRP.EXT.Base.remote._notify(user.source, lang.common.no_player_near())
   end
 end
+radial_menu.tunnel.giveMoney = radial_menu.giveMoney
 
+-- Call admin to submit a report.
 function radial_menu:callAdmin()
   local user = vRP.users_by_source[source]
 
@@ -55,22 +54,26 @@ function radial_menu:callAdmin()
   end
 
   for _, admin in pairs(admins) do
-    async(function()
-      local ok = admin:request(lang.admin.call_admin.request({user.id, htmlEntities.encode(desc)}), 60)
-      if ok and not answered then
-        answered = true
-        vRP.EXT.Base.remote._notify(user.source, "An Admin has claimed your ticket.")
-        vRP.EXT.Base.remote._teleport(admin.source, vRP.EXT.Base.remote.getPosition(user.source))
-      elseif ok then
-        vRP.EXT.Base.remote._notify(admin.source, "Ticket is already claimed.")
+    async(
+      function()
+        local ok = admin:request(lang.admin.call_admin.request({user.id, htmlEntities.encode(desc)}), 60)
+        if ok and not answered then
+          answered = true
+          vRP.EXT.Base.remote._notify(user.source, "An Admin has claimed your ticket.")
+          vRP.EXT.Base.remote._teleport(admin.source, vRP.EXT.Base.remote.getPosition(user.source))
+        elseif ok then
+          vRP.EXT.Base.remote._notify(admin.source, "Ticket is already claimed.")
+        end
       end
-    end)
+    )
   end
 end
+radial_menu.tunnel.callAdmin = radial_menu.callAdmin
 
+-- Check if player is police, and provide the menu if they are.
 function radial_menu:isPolice()
   local users = vRP.users
-  local group = vRP.EXT.Group:getUsersByGroup('police')
+  local group = vRP.EXT.Group:getUsersByGroup("police")
   for k, v in pairs(group) do
     if v.source == source then
       return true
@@ -79,34 +82,6 @@ function radial_menu:isPolice()
     end
   end
 end
-
-function radial_menu:handcuff(self)
-  local user = vRP.users_by_source[source]
-  local nuser
-  local nplayer = vRP.EXT.Base.remote.getNearestPlayer(user.source, 2.5)
-  if nplayer then nuser = vRP.users_by_source[nplayer] end
-  if nuser then
-    self.remote._toggleHandcuff(nuser.source)
-  else
-    vRP.EXT.Base.remote._notify(user.source,lang.common.no_player_near())
-  end
-end
-
-function radial_menu:Drag(self)
-  local user = vRP.users_by_source[source]
-  local nuser
-  local nplayer = vRP.EXT.Base.remote.getNearestPlayer(user.source, 2.5)
-  if nplayer then nuser = vRP.users_by_source[nplayer] end
-  if nuser then
-    self.remote._toggleDrag(nuser.source, self)
-  else
-    vRP.EXT.Base.remote._notify(user.source,lang.common.no_player_near())
-  end
-end
-
-radial_menu.tunnel.Drag = radial_menu.Drag
-radial_menu.tunnel.handcuff = radial_menu.handcuff
-radial_menu.tunnel.giveMoney = radial_menu.giveMoney
-radial_menu.tunnel.callAdmin = radial_menu.callAdmin
 radial_menu.tunnel.isPolice = radial_menu.isPolice
+
 vRP:registerExtension(radial_menu)
