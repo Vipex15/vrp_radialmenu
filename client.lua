@@ -31,6 +31,12 @@ end
 local function VehicleMenu(self, nvehicle)
   local isEngineOn = true
   local isLocked = false
+  local driverDoorOpen = false
+  local passengerDoorOpen = false
+  local rearLeftDoorOpen = false
+  local rearRightDoorOpen = false
+  local hoodOpen = false
+  local trunkOpen = false
 
   exports["ox_lib"]:addRadialItem({
     {
@@ -95,7 +101,12 @@ local function VehicleMenu(self, nvehicle)
         icon = "door-open",
         keepOpen = true,
         onSelect = function()
-          vRP.EXT.Garage:vc_openDoor(nvehicle, 0)
+          driverDoorOpen = not driverDoorOpen
+          if driverDoorOpen then
+            vRP.EXT.Garage:vc_closeDoor(nvehicle, 0)
+          else
+            vRP.EXT.Garage:vc_openDoor(nvehicle, 0)
+          end
         end
       },
       {
@@ -103,7 +114,12 @@ local function VehicleMenu(self, nvehicle)
         icon = "door-open",
         keepOpen = true,
         onSelect = function()
-          vRP.EXT.Garage:vc_openDoor(nvehicle, 1)
+          passengerDoorOpen = not passengerDoorOpen
+          if passengerDoorOpen then
+            vRP.EXT.Garage:vc_closeDoor(nvehicle, 1)
+          else
+            vRP.EXT.Garage:vc_openDoor(nvehicle, 1)
+          end
         end
       },
       {
@@ -111,7 +127,12 @@ local function VehicleMenu(self, nvehicle)
         icon = "door-open",
         keepOpen = true,
         onSelect = function()
-          vRP.EXT.Garage:vc_openDoor(nvehicle, 2)
+          rearLeftDoorOpen = not rearLeftDoorOpen
+          if rearLeftDoorOpen then
+            vRP.EXT.Garage:vc_closeDoor(nvehicle, 2)
+          else
+            vRP.EXT.Garage:vc_openDoor(nvehicle, 2)
+          end
         end
       },
       {
@@ -119,7 +140,12 @@ local function VehicleMenu(self, nvehicle)
         icon = "door-open",
         keepOpen = true,
         onSelect = function()
-          vRP.EXT.Garage:vc_openDoor(nvehicle, 3)
+          rearRightDoorOpen = not rearRightDoorOpen
+          if rearRightDoorOpen then
+            vRP.EXT.Garage:vc_closeDoor(nvehicle, 3)
+          else
+            vRP.EXT.Garage:vc_openDoor(nvehicle, 3)
+          end
         end
       },
       {
@@ -127,7 +153,12 @@ local function VehicleMenu(self, nvehicle)
         icon = "car",
         keepOpen = true,
         onSelect = function()
-          vRP.EXT.Garage:vc_openDoor(nvehicle, 4)
+          hoodOpen = not hoodOpen
+          if hoodOpen then
+            vRP.EXT.Garage:vc_closeDoor(nvehicle, 4)
+          else
+            vRP.EXT.Garage:vc_openDoor(nvehicle, 4)
+          end
         end
       },
       {
@@ -135,7 +166,12 @@ local function VehicleMenu(self, nvehicle)
         icon = "suitcase",
         keepOpen = true,
         onSelect = function()
-          vRP.EXT.Garage:vc_openDoor(nvehicle, 5)
+          trunkOpen = not trunkOpen
+          if trunkOpen then
+            vRP.EXT.Garage:vc_closeDoor(nvehicle, 5)
+          else
+            vRP.EXT.Garage:vc_openDoor(nvehicle, 5)
+          end
         end
       }
     }
