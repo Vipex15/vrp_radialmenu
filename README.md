@@ -9,4 +9,6 @@ This is a paid script for the vRP2 framework. This is a radial menu that aims to
 * Identity
 
 # Installation
-Soon
+* setup a vrp2 server
+* add vrp_radialmenu to resouces and server.cfg
+* restart server
