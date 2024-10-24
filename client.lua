@@ -75,7 +75,15 @@ local function VehicleMenu(self, nvehicle)
         label = "Doors",
         icon = "door-open",
         menu = "door_menu"
-      }
+      },
+      {
+        id = "repairvehicle",
+        label = "Repair Vehicle",
+        icon = "wrench",
+        onSelect = function()
+          self.remote._Repair()
+        end
+      },
     }
   })
 
@@ -156,14 +164,6 @@ function radial_menu:__construct()
       icon = "money-bill-wave",
       onSelect = function()
         self.remote._GiveMoney()
-      end
-    },
-    {
-      id = "repairvehicle",
-      label = "Repair Vehicle",
-      icon = "wrench",
-      onSelect = function()
-        self.remote._Repair()
       end
     },
     {
