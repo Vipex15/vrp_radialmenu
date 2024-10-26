@@ -209,8 +209,17 @@ function radial_menu:__construct()
       onSelect = function()
         self.remote._store_weapons()
       end
+    },
+    {
+      id = "identity",
+      label = "Your Identity",
+      icon = "id-card",
+      onSelect = function()
+        self.remote._identity()
+      end
     }
   })
+
   Citizen.CreateThread(function()
     while true do
       --print("Checking police status...")
@@ -260,8 +269,35 @@ function radial_menu:fixNearestVehicle(radius)
   end
 end
 
+function radial_menu:Identity(name, job, address, phone, self)
+  exports["ox_lib"]:registerRadial({
+    id = "identity_menu",
+    items = {
+      {
+        label = name,
+        icon = "id-card",
+        keepOpen = true,
+      },
+      {
+        label = job,
+        icon = "briefcase",
+        keepOpen = true,
+      },
+      {
+        label = address,
+        icon = "home",
+        keepOpen = true,
+      },
+      {
+        label = phone,
+        icon = "phone",
+        keepOpen = true,
+      }
+    }
+  })
+end
 
 radial_menu.tunnel = {}
 radial_menu.tunnel.fixNearestVehicle = radial_menu.fixNearestVehicle
-
+radial_menu.tunnel.Identity = radial_menu.Identity
 vRP:registerExtension(radial_menu)

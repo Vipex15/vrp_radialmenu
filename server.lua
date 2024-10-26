@@ -105,6 +105,21 @@ function radial_menu:store_weapons()
   end
 end
 
+function radial_menu:identity()
+  local user = vRP.users_by_source[source]
+
+  local home = vRP.EXT.Home:getAddress(user.cid).home
+  local phone = user.identity.phone
+  local name = user.identity.firstname .. " " .. user.identity.name
+  local job = user.cdata
+  print('^8some data^0 '..home, name, phone)
+
+  local groups = user:getGroupByType('job')
+  print('^3some data^0 '..json.encode(groups))
+end
+
+
+
 radial_menu.tunnel = {}
 
 radial_menu.tunnel.isPolice = radial_menu.isPolice
@@ -112,4 +127,5 @@ radial_menu.tunnel.callAdmin = radial_menu.callAdmin
 radial_menu.tunnel.giveMoney = radial_menu.giveMoney
 radial_menu.tunnel.Repair = radial_menu.Repair
 radial_menu.tunnel.store_weapons = radial_menu.store_weapons
+radial_menu.tunnel.identity = radial_menu.identity
 vRP:registerExtension(radial_menu)
