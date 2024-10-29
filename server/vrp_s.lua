@@ -3,7 +3,6 @@ local Proxy = module("vrp", "lib/Proxy")
 
 local vRP = Proxy.getInterface("vRP")
 
-
 async(function()
-  vRP.loadScript("vrp_radialmenu", "server")		-- change vrp_radialmenu to file name of mod
+  vRP.loadScript("vrp_reactlib", "server/server")
 end)
