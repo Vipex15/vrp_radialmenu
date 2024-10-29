@@ -8,9 +8,8 @@ import {
 	Route,
 	useLocation,
 	useNavigate,
-} from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import Images from "./pages/Images";
+} from 'react-router-dom';
+import IDCard from './pages/idcard';
 
 export {
 	// Dependencies for use Pages in React.
@@ -20,6 +19,5 @@ export {
 	useLocation,
 	useNavigate,
 	// Components for each of the pages.
-	HomePage,
-	Images,
+	IDCard,
 };
