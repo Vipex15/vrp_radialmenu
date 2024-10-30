@@ -1,6 +1,16 @@
---##########	VRP Main	##########--
-local radial_menu = class("radial_menu", vRP.Extension)
+--##########    VRP Main    ##########--
+-- init vRP client context
+Tunnel = module("vrp", "lib/Tunnel")
+Proxy = module("vrp", "lib/Proxy")
+local cvRP = module("vrp", "client/vRP")
+vRP = cvRP()
+local pvRP = {}
+-- load script in vRP context
+pvRP.loadScript = module
+Proxy.addInterface("vRP", pvRP)
+--[[################################]]--
 local cfg = module("vrp_radialmenu", "cfg/cfg")
+local radial_menu = class("radial_menu", vRP.Extension)
 
 local focus = false
 local active = false
