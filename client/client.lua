@@ -235,25 +235,36 @@ function RadialMenu:__construct()
       label = "ID Card",
       icon = "id-card",
       onSelect = function()
-        if active then
-          SetDisplay(false)
-          SetNuiFocus(false, false)
-          active = false
-        else
-          active = true
-          print("Getting ID Card.")
-
-          SendNUIMessage({
-            action = "setVisible",
-            data = true,
-          })
-          --SetNuiFocus(false, false)
-          local identity = self.remote.getPlayerData()
-          SendNUIMessage({
-            action = "setID",
-            data = identity
-          })
+        print("Getting ID Card.")
+    
+        SendNUIMessage({
+          action = "setVisible",
+          data = true,
+        })
+        SetNuiFocus(true, false)
+    
+        local identity = self.remote.getPlayerData()
+    
+        SendNUIMessage({
+          action = "setID",
+          data = identity
+        })
+    
+        local ped = PlayerPedId()
+        local pedHeadshot = Citizen.InvokeNative(0xBA8805A1108A2515, ped)
+        
+        while not IsPedheadshotReady(pedHeadshot) or not IsPedheadshotValid(pedHeadshot) do
+            Citizen.Wait(100)
         end
+    
+        local headshot = GetPedheadshotTxdString(pedHeadshot)
+    
+        SendNUIMessage({
+          action = "setHeadshot",
+          headshot = headshot
+        })
+    
+        UnregisterPedheadshot(pedHeadshot)
       end
     },
   })
