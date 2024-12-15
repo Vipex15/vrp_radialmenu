@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { debugData, fetchNui } from "../../utils/utils";
 debugData([{ action: "setVisible", data: true }]);
 import './style.css'
-/**This is the Home Page page.
- This is the first screen players see when they open the UI.*/
 const IDCard: React.FC = () => {
+
+
+
 	return (
 		<>
 			<div className="bg-gray-200 font-sans flex justify-center items-center min-h-screen">

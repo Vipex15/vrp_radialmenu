@@ -235,7 +235,12 @@ function RadialMenu:__construct()
       label = "ID Card",
       icon = "id-card",
       onSelect = function()
-        SetDisplay(true)
+        print("Getting ID Card.")
+        SendNUIMessage({
+          action = "setVisible",
+          data = true,
+        })
+        SetNuiFocus(true, true)
       end
     },
   })
@@ -286,10 +291,10 @@ end
 
 -- [[UI FUNCTIONS]] --
 -- toggle off ui
-RegisterNUICallback("exit", function(data)
-  SetNuiFocus(false, false)
+RegisterNUICallback("exit", function(_, cb)
+  print('exit')
   SetDisplay(false)
-  active = false
+  SetNuiFocus(false, false)
 end)
 
 -- toggle ui

@@ -6,6 +6,18 @@ debugData([{ action: "setVisible", data: true }]);
 
 // This is the main component that will be rendered.
 const App: React.FC = () => {
+	useEffect(() => {
+		const keyHandler = (e: KeyboardEvent) => {
+			if (["Backspace", "Escape"].includes(e.code)) {
+				fetchNui("exit");
+				console.log('Escape Key Pressed');
+			}
+		};
+
+		window.addEventListener("keydown", keyHandler);
+		return () => window.removeEventListener("keydown", keyHandler);
+	}, []);
+
 	return (
 		<div className="container mx-auto mr-2 p-4 overflow-hidden">
 			<div className="id-card flex bg-black w-[450px] h-[200px] rounded-2xl shadow-lg overflow-hidden text-white text-lg ml-auto mr-4 mt-4">

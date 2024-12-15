@@ -14,8 +14,6 @@ interface VisibilityProviderValue {
 	visible: boolean;
 }
 
-// This should be mounted at the top level of your application, it is currently set to
-// apply a CSS visibility value. If this is non-performant, this should be customized.
 export const VisibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
@@ -23,36 +21,20 @@ export const VisibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	useNuiEvent<boolean>("setVisible", setVisible);
 
-	// Handle pressing escape/backspace
-	useEffect(() => {
-		// Only attach listener when we are visible
-		if (!visible) {
-			console.log("Not visible, skipping event listeners");
-			return;
-		}
+	// useEffect(() => {
+	// 	if (!visible) return;
+	// 	console.log("testing visible true")
+	// 	const keyHandler = (e: KeyboardEvent) => {
+	// 		if (["Backspace", "Escape"].includes(e.code)) {
+	// 			fetchNui("exit");
+	// 			console.log('Escape Key Pressed');
+	// 			setVisible(false);
+	// 		}
+	// 	};
 
-		const keyHandler = (e: KeyboardEvent) => {
-			if (e.code === "Escape") {
-				console.log("Escape key pressed");
-				fetchNui("exit");
-			}
-		};
-
-		const contextMenuHandler = (e: MouseEvent) => {
-			e.preventDefault();
-			console.log("Right click detected");
-			fetchNui("exit");
-		};
-
-		window.addEventListener("keydown", keyHandler);
-		window.addEventListener("contextmenu", contextMenuHandler);
-
-		return () => {
-			console.log("Cleaning up event listeners");
-			window.removeEventListener("keydown", keyHandler);
-			window.removeEventListener("contextmenu", contextMenuHandler);
-		};
-	}, [visible]);
+	// 	window.addEventListener("keydown", keyHandler);
+	// 	return () => window.removeEventListener("keydown", keyHandler);
+	// }, [visible]);
 
 	return (
 		<VisibilityCtx.Provider
