@@ -269,6 +269,7 @@ function RadialMenu:__construct()
   })
 
 
+
   -- This is a check to see if the player is police, and if so, it'll call the function to give the nessessary actions in the menu.
   Citizen.CreateThread(function()
     while true do
