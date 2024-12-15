@@ -111,10 +111,18 @@ end
 --get nearest owned vehicle
 function RadialMenu:getNearestOwnedVehicle()
   local user = vRP.users_by_source[source]
-  if user == nil or not user then return print('user is nil or not user') end
+  if user == nil or not user then return print('user is not initialized or not user') end
   local vehicle = vRP.EXT.Garage.remote.getNearestOwnedVehicle(user.source, 7)
   --print(tostring(vehicle))
   return vehicle
+end
+
+-- Get user identity data
+function RadialMenu:getPlayerData()
+  local user = vRP.users_by_source[source]
+  if user == nil or not user then return print('user is not initialized or not user') end
+  local identity = user.identity
+  return identity
 end
 
 RadialMenu.tunnel = {}

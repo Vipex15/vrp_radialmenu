@@ -28,8 +28,15 @@ function RadialMenu:__construct()
     })
   end
 
-  -- functions
+  -- This callback will get the player's information and display it on the UI(WIP)
+  RegisterNUICallback("getPlayerData", function(_, cb)
+    local user_data = self.remote._getPlayerData()
+    if user_data then
+      cb(user_data)
+    end
+  end)
 
+  --[[Functions]]--
   -- This function loads the police actions in the radial menu when user is police.
   local function PoliceItems(self)
     exports["ox_lib"]:addRadialItem({
@@ -233,6 +240,14 @@ function RadialMenu:__construct()
         self.remote._store_weapons()
       end
     },
+    {
+      id = "getidentity",
+      label = "ID Card",
+      icon = "id-card",
+      onSelect = function()
+        SetDisplay(true)
+      end
+    },
   })
 
   -- This is a check to see if the player is police, and if so, it'll call the function to give the nessessary actions in the menu.
@@ -277,8 +292,16 @@ function RadialMenu:__construct()
       Citizen.Wait(2500)
     end
   end)
-end
 
+  -- test command for testing ui(WIP)
+  RegisterCommand('testui', function(source, args, rawCommand)
+    SendNUIMessage({
+      action = "setVisible",
+      data = true,
+    })
+    print("UI should be visible.")
+  end,false)
+end
 
 --[[TUNNELS]]--
 function RadialMenu:fixNearestVehicle(radius)

@@ -1,37 +1,23 @@
-// App.tsx
 import { useEffect, useState } from "react";
 import { debugData, fetchNui } from "../utils/utils";
-import './style.css';
 debugData([{ action: "setVisible", data: true }]);
 
 // This is the main component that will be rendered.
 const App: React.FC = () => {
-	const [playerData, setPlayerData] = useState<any>(null);
-	useEffect(() => {
-		fetchNui('getPlayerData').then((data: any) => {
-			if (data) {
-				console.log(JSON.stringify(data));
-			}
-		})
-	}, []);
 	return (
-		<>
-			<div className="id-card">
-				<div className="id-card-left">
-					<img id="face-image" src="" alt="Player Face" className="photo" />
-				</div>
-				<div className="id-card-right">
-					<h2 id="player-name">Player Name</h2>
-					<p><strong>First Name:</strong> <span id="first-name">John</span></p>
-					<p><strong>Last Name:</strong> <span id="last-name">Doe</span></p>
-					<p><strong>Age:</strong> <span id="player-age">25</span></p>
-					<p><strong>Register ID:</strong> <span id="register-id">#123456789</span></p>
-					<p><strong>Phone:</strong> <span id="phone">+123456789</span></p>
+		<div className="bg-gray-200 font-sans flex justify-center items-center min-h-screen">
+			<div className="id-card flex bg-black w-[600px] h-[300px] rounded-2xl shadow-lg overflow-hidden text-white text-lg">
+				<div className="id-card-right w-[65%] p-8 flex flex-col justify-center gap-5">
+					<h2 id="player-name" className="text-3xl font-bold text-white">Player Name</h2>
+					<p className="text-lg font-medium text-gray-400"><strong className="font-bold text-orange-500">First Name:</strong> <span id="first-name" className="text-white">John</span></p>
+					<p className="text-lg font-medium text-gray-400"><strong className="font-bold text-orange-500">Last Name:</strong> <span id="last-name" className="text-white">Doe</span></p>
+					<p className="text-lg font-medium text-gray-400"><strong className="font-bold text-orange-500">Age:</strong> <span id="player-age" className="text-white">25</span></p>
+					<p className="text-lg font-medium text-gray-400"><strong className="font-bold text-orange-500">Register ID:</strong> <span id="register-id" className="text-white">#123456789</span></p>
+					<p className="text-lg font-medium text-gray-400"><strong className="font-bold text-orange-500">Phone:</strong> <span id="phone" className="text-gray-500 italic">+123456789</span></p>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 
 export default App;
-
