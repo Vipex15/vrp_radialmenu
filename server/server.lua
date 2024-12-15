@@ -122,6 +122,7 @@ function RadialMenu:getPlayerData()
   local user = vRP.users_by_source[source]
   if user == nil or not user then return print('user is not initialized or not user') end
   local identity = user.identity
+  print(json.encode(identity))
   return identity
 end
 
@@ -133,5 +134,6 @@ RadialMenu.tunnel.callAdmin = RadialMenu.callAdmin
 RadialMenu.tunnel.giveMoney = RadialMenu.giveMoney
 RadialMenu.tunnel.Repair = RadialMenu.Repair
 RadialMenu.tunnel.store_weapons = RadialMenu.store_weapons
+RadialMenu.tunnel.getPlayerData = RadialMenu.getPlayerData
 
 vRP:registerExtension(RadialMenu)

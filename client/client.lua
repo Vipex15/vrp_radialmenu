@@ -240,7 +240,12 @@ function RadialMenu:__construct()
           action = "setVisible",
           data = true,
         })
-        SetNuiFocus(true, true)
+        SetNuiFocus(true, false)
+        local identity = self.remote.getPlayerData()
+        SendNUIMessage({
+          action = "setID",
+          data = identity
+        })
       end
     },
   })
