@@ -236,19 +236,38 @@ function RadialMenu:__construct()
       icon = "id-card",
       onSelect = function()
         print("Getting ID Card.")
+    
         SendNUIMessage({
           action = "setVisible",
           data = true,
         })
         SetNuiFocus(true, false)
+    
         local identity = self.remote.getPlayerData()
+    
         SendNUIMessage({
           action = "setID",
           data = identity
         })
+    
+        local ped = PlayerPedId()
+        local pedHeadshot = Citizen.InvokeNative(0xBA8805A1108A2515, ped)
+        
+        while not IsPedheadshotReady(pedHeadshot) or not IsPedheadshotValid(pedHeadshot) do
+            Citizen.Wait(100)
+        end
+    
+        local headshot = GetPedheadshotTxdString(pedHeadshot)
+    
+        SendNUIMessage({
+          action = "setHeadshot",
+          headshot = headshot
+        })
+          UnregisterPedheadshot(pedHeadshot)
       end
     },
   })
+
 
   -- This is a check to see if the player is police, and if so, it'll call the function to give the nessessary actions in the menu.
   Citizen.CreateThread(function()
