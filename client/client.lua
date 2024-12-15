@@ -235,17 +235,25 @@ function RadialMenu:__construct()
       label = "ID Card",
       icon = "id-card",
       onSelect = function()
-        print("Getting ID Card.")
-        SendNUIMessage({
-          action = "setVisible",
-          data = true,
-        })
-        SetNuiFocus(true, false)
-        local identity = self.remote.getPlayerData()
-        SendNUIMessage({
-          action = "setID",
-          data = identity
-        })
+        if active then
+          SetDisplay(false)
+          SetNuiFocus(false, false)
+          active = false
+        else
+          active = true
+          print("Getting ID Card.")
+
+          SendNUIMessage({
+            action = "setVisible",
+            data = true,
+          })
+          --SetNuiFocus(false, false)
+          local identity = self.remote.getPlayerData()
+          SendNUIMessage({
+            action = "setID",
+            data = identity
+          })
+        end
       end
     },
   })
