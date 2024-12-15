@@ -6,10 +6,9 @@ local RadialMenu = class("RadialMenu", vRP.Extension)
 
 function RadialMenu:__construct()
   vRP.Extension.__construct(self)
-  print('^5Radial Menu Extension is ready.^0')
-
-
 end
+
+
 -- Give nearest player money
 function RadialMenu:giveMoney()
   local user = vRP.users_by_source[source]
@@ -34,6 +33,7 @@ function RadialMenu:giveMoney()
     vRP.EXT.Base.remote._notify(user.source, lang.common.no_player_near())
   end
 end
+
 -- Call admin to submit a report.
 function RadialMenu:callAdmin()
   local user = vRP.users_by_source[source]
@@ -66,6 +66,7 @@ function RadialMenu:callAdmin()
     end)
   end
 end
+
 -- Check if player is police, and provide the menu if they are.
 function RadialMenu:isPolice()
   local users = vRP.users
@@ -78,6 +79,7 @@ function RadialMenu:isPolice()
     end
   end
 end
+
 -- repair vehicle
 function RadialMenu:Repair()
   local user = vRP.users_by_source[source]
@@ -91,6 +93,8 @@ function RadialMenu:Repair()
     end)
   end
 end
+
+-- Store weapons
 function RadialMenu:store_weapons()
   local user = vRP.users_by_source[source]
 
@@ -103,6 +107,7 @@ function RadialMenu:store_weapons()
     end
   end
 end
+
 --get nearest owned vehicle
 function RadialMenu:getNearestOwnedVehicle()
   local user = vRP.users_by_source[source]

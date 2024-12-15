@@ -12,13 +12,14 @@ function RadialMenu:__construct()
   self.isNearVehicle = false
 
   --[[UI STUFF]]--
-  -- toggle off ui
+  -- This exits the UI for the identity card(WIP)
   RegisterNUICallback("exit", function(data)
     SetNuiFocus(false, false)
     SetDisplay(false)
     active = false
   end)
-  -- toggle ui
+
+  -- Toggles ui for identity card(WIP)
   function SetDisplay(bool)
     display = bool
     SendNUIMessage({
@@ -28,6 +29,8 @@ function RadialMenu:__construct()
   end
 
   -- functions
+
+  -- This function loads the police actions in the radial menu when user is police.
   local function PoliceItems(self)
     exports["ox_lib"]:addRadialItem({
       {
@@ -52,6 +55,8 @@ function RadialMenu:__construct()
       }
     })
   end
+
+  -- This function loads the vehicle actions in the radial menu when user is near an owned vehicle.
   local function VehicleMenu(self, nvehicle)
     local isEngineOn = true
     local isLocked = false
@@ -202,6 +207,7 @@ function RadialMenu:__construct()
     })
   end
 
+  -- This is the default actions seen when first opening the menu.
   exports["ox_lib"]:addRadialItem({
     {
       id = "calladmin",
@@ -229,6 +235,7 @@ function RadialMenu:__construct()
     },
   })
 
+  -- This is a check to see if the player is police, and if so, it'll call the function to give the nessessary actions in the menu.
   Citizen.CreateThread(function()
     while true do
       --print("Checking police status...")
@@ -249,6 +256,7 @@ function RadialMenu:__construct()
     end
   end)
 
+  -- This is a check to see if the player is near any owned vehicles, and if so, it'll call the function to give the nessessary actions in the menu.
   Citizen.CreateThread(function()
     while true do
       --print("Checking if player is near any owned vehicles...")
