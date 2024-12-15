@@ -233,7 +233,6 @@ function RadialMenu:__construct()
         self.remote._store_weapons()
       end
     },
-  })
 
 
   {
@@ -272,7 +271,7 @@ function RadialMenu:__construct()
       UnregisterPedheadshot(pedHeadshot)
     end
   },
-  
+})
 
   -- This is a check to see if the player is police, and if so, it'll call the function to give the nessessary actions in the menu.
   Citizen.CreateThread(function()
