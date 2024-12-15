@@ -1,40 +1,30 @@
+-- --##########	VRP Main	##########--
+-- init vRP server context
+Tunnel = module("vrp", "lib/Tunnel")
+Proxy = module("vrp", "lib/Proxy")
+local cvRP = module("vrp", "client/vRP")
+vRP = cvRP()
+local pvRP = {}
+-- load script in vRP context
+pvRP.loadScript = module
+Proxy.addInterface("vRP", pvRP)
+-- I don't know if above is needed :/
 local RadialMenu = class("RadialMenu", vRP.Extension)
-local cfg = module("vrp_radialmenu", "cfg/cfg")
 
 local focus = false
 local active = false
 
 function RadialMenu:__construct()
   vRP.Extension.__construct(self)
-
   self.isPolice = false
   -- General Items in Menu.
   self.isNearVehicle = false
 
-  --[[UI STUFF]]--
-  -- This exits the UI for the identity card(WIP)
-  RegisterNUICallback("exit", function(data)
-    SetNuiFocus(false, false)
-    SetDisplay(false)
-    active = false
-  end)
-
-  -- Toggles ui for identity card(WIP)
-  function SetDisplay(bool)
-    display = bool
-    SendNUIMessage({
-      action = "setVisible",
-      data = bool,
-    })
-  end
-
-  -- This callback will get the player's information and display it on the UI(WIP)
-  RegisterNUICallback("getPlayerData", function(_, cb)
-    local user_data = self.remote._getPlayerData()
-    if user_data then
-      cb(user_data)
-    end
-  end)
+  -- Test command for UI (WIP)
+  RegisterCommand('testingui', function()
+    SetDisplay(true)
+    SetNuiFocus(true, true)
+  end, false)
 
   --[[Functions]]--
   -- This function loads the police actions in the radial menu when user is police.
@@ -292,15 +282,23 @@ function RadialMenu:__construct()
       Citizen.Wait(2500)
     end
   end)
+end
 
-  -- test command for testing ui(WIP)
-  RegisterCommand('testui', function(source, args, rawCommand)
-    SendNUIMessage({
-      action = "setVisible",
-      data = true,
-    })
-    print("UI should be visible.")
-  end,false)
+-- [[UI FUNCTIONS]] --
+-- toggle off ui
+RegisterNUICallback("exit", function(data)
+  SetNuiFocus(false, false)
+  SetDisplay(false)
+  active = false
+end)
+
+-- toggle ui
+function SetDisplay(bool)
+  display = bool
+  SendNUIMessage({
+    action = "setVisible",
+    data = bool,
+  })
 end
 
 --[[TUNNELS]]--

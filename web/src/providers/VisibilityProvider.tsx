@@ -6,6 +6,7 @@ import React, {
 	useState,
 } from "react";
 import { useNuiEvent, fetchNui } from "../utils/utils";
+import { isEnvBrowser } from "../utils/misc";
 
 const VisibilityCtx = createContext<VisibilityProviderValue | null>(null);
 
@@ -25,13 +26,28 @@ export const VisibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	// Handle pressing escape/backspace
 	useEffect(() => {
+		// Only attach listener when we are visible
+		if (!visible) return;
+
+		const keyHandler = (e: KeyboardEvent) => {
+			if (e.code === "Escape") {
+				fetchNui("exit");
+			}
+		};
+
 		const contextMenuHandler = (e: MouseEvent) => {
 			e.preventDefault();
-			fetchNui('exit');
+			fetchNui("exit");
 		};
+
+		window.addEventListener("keydown", keyHandler);
 		window.addEventListener("contextmenu", contextMenuHandler);
-		return () => window.removeEventListener("contextmenu", contextMenuHandler);
-	}, []);
+
+		return () => {
+			window.removeEventListener("keydown", keyHandler);
+			window.removeEventListener("contextmenu", contextMenuHandler);
+		};
+	}, [visible]);
 
 	return (
 		<VisibilityCtx.Provider
