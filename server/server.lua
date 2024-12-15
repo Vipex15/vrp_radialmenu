@@ -1,14 +1,17 @@
 --original code at bottom
 local htmlEntities = module("lib/htmlEntities")
 local lang = vRP.lang
-local radial_menu = class("radial_menu", vRP.Extension)
+local RadialMenu = class("RadialMenu", vRP.Extension)
 -- TUNNEL
 
-function radial_menu:__construct()
+function RadialMenu:__construct()
   vRP.Extension.__construct(self)
+  print('^5Radial Menu Extension is ready.^0')
+
+
 end
 -- Give nearest player money
-function radial_menu:giveMoney()
+function RadialMenu:giveMoney()
   local user = vRP.users_by_source[source]
   local nplayer = vRP.EXT.Base.remote.getNearestPlayer(user.source, 10)
 
@@ -31,9 +34,8 @@ function radial_menu:giveMoney()
     vRP.EXT.Base.remote._notify(user.source, lang.common.no_player_near())
   end
 end
-
 -- Call admin to submit a report.
-function radial_menu:callAdmin()
+function RadialMenu:callAdmin()
   local user = vRP.users_by_source[source]
 
   if not user:hasPermission("player.calladmin") then
@@ -64,9 +66,8 @@ function radial_menu:callAdmin()
     end)
   end
 end
-
 -- Check if player is police, and provide the menu if they are.
-function radial_menu:isPolice()
+function RadialMenu:isPolice()
   local users = vRP.users
   local group = vRP.EXT.Group:getUsersByGroup("police")
   for k, v in pairs(group) do
@@ -77,8 +78,8 @@ function radial_menu:isPolice()
     end
   end
 end
-
-function radial_menu:Repair()
+-- repair vehicle
+function RadialMenu:Repair()
   local user = vRP.users_by_source[source]
 
   -- anim and repair
@@ -90,9 +91,7 @@ function radial_menu:Repair()
     end)
   end
 end
-
-
-function radial_menu:store_weapons()
+function RadialMenu:store_weapons()
   local user = vRP.users_by_source[source]
 
   local weapons = vRP.EXT.PlayerState.remote.replaceWeapons(user.source, {})
@@ -104,29 +103,22 @@ function radial_menu:store_weapons()
     end
   end
 end
-
-function radial_menu:identity()
+--get nearest owned vehicle
+function RadialMenu:getNearestOwnedVehicle()
   local user = vRP.users_by_source[source]
-
-  local home = vRP.EXT.Home:getAddress(user.cid).home
-  local phone = user.identity.phone
-  local name = user.identity.firstname .. " " .. user.identity.name
-  local job = user.cdata
-  print('^8some data^0 '..home, name, phone)
-
-  local groups = user:getGroupByType('job')
-  print('^3some data^0 '..json.encode(groups))
+  if user == nil or not user then return print('user is nil or not user') end
+  local vehicle = vRP.EXT.Garage.remote.getNearestOwnedVehicle(user.source, 7)
+  --print(tostring(vehicle))
+  return vehicle
 end
 
+RadialMenu.tunnel = {}
 
+RadialMenu.tunnel.getNearestOwnedVehicle = RadialMenu.getNearestOwnedVehicle
+RadialMenu.tunnel.isPolice = RadialMenu.isPolice
+RadialMenu.tunnel.callAdmin = RadialMenu.callAdmin
+RadialMenu.tunnel.giveMoney = RadialMenu.giveMoney
+RadialMenu.tunnel.Repair = RadialMenu.Repair
+RadialMenu.tunnel.store_weapons = RadialMenu.store_weapons
 
-radial_menu.tunnel = {}
-
-radial_menu.tunnel.isPolice = radial_menu.isPolice
-radial_menu.tunnel.callAdmin = radial_menu.callAdmin
-radial_menu.tunnel.giveMoney = radial_menu.giveMoney
-radial_menu.tunnel.Repair = radial_menu.Repair
-radial_menu.tunnel.store_weapons = radial_menu.store_weapons
-radial_menu.tunnel.identity = radial_menu.identity
-
-vRP:registerExtension(radial_menu)
+vRP:registerExtension(RadialMenu)
